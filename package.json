@@ -1,0 +1,19 @@
+{
+  "name": "na-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gonksy/na-demo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Gonksy/na-demo/issues"
+  },
+  "homepage": "https://github.com/Gonksy/na-demo#readme"
+}
