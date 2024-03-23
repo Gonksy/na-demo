@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
+
+<body>
+  <h1>Dashboard</h1>
+  <div class="overflow-x-auto">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Age</th>
+          <th>ID</th>
+          <th>last_login</th>
+          <th>active</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% users.forEach((user, index) => {%>
+        <tr>
+          <th><%= index+1 %></th>
+          <td><%= user.name %></td>
+          <td><%= user.age %></td>
+          <td><%= user.id %></td>
+          <td><%= user.last_login %></td>
+          <td><%= user.active %></td>
+        </tr>
+        <%}) %>
+      </tbody>
+    </table>
+  </div>
+</body>
+
+</html>
