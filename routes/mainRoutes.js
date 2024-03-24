@@ -6,4 +6,6 @@ router.get("/", mainControllers.getIndex)
 
 router.get("/dash", mainControllers.getDash)
 
+router.get("/users", mainControllers.getUsers)
+
 module.exports = router
