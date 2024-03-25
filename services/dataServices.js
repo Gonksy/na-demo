@@ -41,9 +41,7 @@ module.exports = {
     }
 
     // Sort by last_login
-    console.log("sort", sort)
     if (sort) {
-      console.log("users sorted by last_login")
       users = users.sort((a, b) => new Date(b.last_login) - new Date(a.last_login))
     }
 
