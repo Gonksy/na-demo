@@ -1,40 +1,127 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
+  <title>NA Demo - Dashboard</title>
+  <link rel="stylesheet" href="/css/output.css">
+
 </head>
 
-<body>
-  <h1>Dashboard</h1>
-  <div class="overflow-x-auto">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Name</th>
-          <th>Age</th>
-          <th>ID</th>
-          <th>last_login</th>
-          <th>active</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% users.forEach((user, index) => {%>
-        <tr>
-          <th><%= index+1 %></th>
-          <td><%= user.name %></td>
-          <td><%= user.age %></td>
-          <td><%= user.id %></td>
-          <td><%= user.last_login %></td>
-          <td><%= user.active %></td>
-        </tr>
-        <%}) %>
-      </tbody>
-    </table>
+<body class="py-4">
+
+  <h1 class="mx-auto w-fit pb-4 font-bold text-xl">Dashboard</h1>
+
+  <section class="flex flex-col max-w-4xl gap-4 mx-auto ">
+    <!-- Error -->
+    <% if (locals.error) {%>
+    <div role="alert" class="alert h-fit">
+      <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+      </svg>
+      <span><%= error %></span>
+    </div> <%} %>
+    <div class="flex gap-4">
+      <div class="flex flex-col gap-4 w-1/4">
+        <!-- Analytics -->
+        <div class="border rounded-lg p-4">
+          <h2 class="font-semibold text-lg mb-2">Analytics</h2>
+          <h3>Average User Age: <%= stats.avgAgeAll %></h3>
+          <h3><%= stats.activeUsers %> active users</h3>
+          <h3><%= stats.inactiveUsers %> inactive users</h3>
+        </div>
+
+        <!-- Form -->
+        <form id="searchForm" class="border rounded-lg p-4 flex flex-col gap-2" action="/userSearch" method="post">
+          <!-- Search -->
+          <label class="input input-bordered flex items-center gap-2">
+            <input name="searchTerm" type="text" class="grow" placeholder="Name" />
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70">
+              <path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" />
+            </svg>
+          </label>
+
+          <!-- Age range -->
+          <label class="form-control w-full max-w-xs">
+            <div class="label">
+              <span class="label-text">Age</span>
+            </div>
+            <div class="flex gap-2 items-center">
+              <input name="minAge" type="text" placeholder="Min" class="input input-bordered w-full max-w-xs text-sm" />
+              <span> - </span>
+              <input name="maxAge" type="text" placeholder="Max" class="input input-bordered w-full max-w-xs text-sm" />
+            </div>
+          </label>
+
+          <!-- Activity -->
+          <label class="form-control w-full max-w-xs">
+            <div class="label">
+              <span class="label-text">User activity</span>
+            </div>
+            <select name="active" class="select select-bordered">
+              <option selected value="">All</option>
+              <option value="true">Active</option>
+              <option value="false">Inactive</option>
+            </select>
+          </label>
+
+          <!-- Last login -->
+          <div class="form-control">
+            <label class="label cursor-pointer">
+              <span class="label-text">Sort by last login</span>
+              <input name="sort" type="checkbox" class="checkbox" />
+            </label>
+          </div>
+
+          <!-- Submit -->
+          <input class="btn w-full" type="submit" value="Search">
+        </form>
+      </div>
+      <!-- User Table -->
+      <% if (locals.users && locals.users.length > 0) {%>
+      <div class="overflow-x-auto w-3/4 border rounded-lg p-4">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Age</th>
+              <th>ID</th>
+              <th>last_login</th>
+              <th>active</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% users.forEach((user, index) => {%>
+            <tr>
+              <th><%= index+1 %></th>
+              <td><%= user.name %></td>
+              <td><%= user.age %></td>
+              <td><%= user.id %></td>
+              <td><%= user.last_login %></td>
+              <td><%= user.active %></td>
+            </tr>
+            <%}) %>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- No users found -->
+      <%} else {%>
+      <div role="alert" class="alert h-fit">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info shrink-0 w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <span>No users found.</span>
+      </div>
+      <%}  %>
+  </section>
+
   </div>
+
+
+
 </body>
 
 </html>
